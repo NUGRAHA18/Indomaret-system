@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Indomaret</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/modules/inventory.css">
+    <link rel="stylesheet" href="/css/modules/sales.css">
+    <link rel="stylesheet" href="/css/modules/customer.css">
+    <link rel="stylesheet" href="/css/modules/reports.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <!-- Login form content -->
+        <div class="login-box">
+            <div class="login-logo">
+                <h1>Indomaret</h1>
+                <p>Sistem Manajemen Terpadu</p>
+            </div>
+            <div class="login-form">
+                <div class="form-group role-select">
+                    <label for="userRole">Masuk Sebagai</label>
+                    <select id="userRole">
+                        <option value="supervisor">Supervisor Area</option>
+                        <option value="manager">Manager Outlet</option>
+                        <option value="kasir">Kasir</option>
+                        <option value="supplier">Supplier</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Masukkan username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Masukkan password">
+                    <div class="error-message" id="loginError">Username atau password salah!</div>
+                </div>
+                <button id="loginBtn">Login</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main App -->
+    <div class="app-container" id="appScreen">
+        <!-- Header content -->
+        <header class="header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="action-btn btn-secondary">☰</button>
+                <a href="#" onclick="UIController.loadContent('dashboard'); return false;">
+                    <img src="img/logo-indomaretFIks.png" alt="Indomaret Logo" class="header-logo">
+                </a>
+                <h1>Sistem Manajemen Indomaret</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span id="userDisplayName">Budi Santoso</span>
+                    <p>|</p>
+                    <span id="userRoleDisplay">Supervisor Area</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+        
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar content -->
+            <div class="sidebar" id="sidebar">
+                <!-- Menu will be loaded dynamically -->
+                <div class="sidebar" id="sidebar">
+                    <ul class="sidebar-menu" id="mainMenu">
+                        <!-- Menu items will be loaded based on user role -->
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content" id="contentArea">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- All modal definitions -->
+    <div class="modal" id="stockAuditModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Audit Stok</h3>
+                <button class="close-btn" data-close-modal="stockAuditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="auditDate">Tanggal Audit</label>
+                    <input type="date" id="auditDate">
+                </div>
+                <div class="form-group">
+                    <label for="auditOutlet">Outlet</label>
+                    <select id="auditOutlet">
+                        <option value="1">Indomaret Jl. Sudirman No. 123</option>
+                        <option value="2">Indomaret Jl. Gatot Subroto No. 45</option>
+                        <option value="3">Indomaret Jl. Asia Afrika No. 67</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Daftar Produk</label>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama Produk</th>
+                                    <th>Stok Sistem</th>
+                                    <th>Stok Fisik</th>
+                                    <th>Selisih</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>P001</td>
+                                    <td>Indomie Goreng</td>
+                                    <td>120</td>
+                                    <td><input type="number" class="stock-input" value="118"></td>
+                                    <td class="stock-diff">-2</td>
+                                </tr>
+                                <tr>
+                                    <td>P002</td>
+                                    <td>Aqua 600ml</td>
+                                    <td>85</td>
+                                    <td><input type="number" class="stock-input" value="85"></td>
+                                    <td class="stock-diff">0</td>
+                                </tr>
+                                <tr>
+                                    <td>P003</td>
+                                    <td>Pocari Sweat</td>
+                                    <td>42</td>
+                                    <td><input type="number" class="stock-input" value="40"></td>
+                                    <td class="stock-diff">-2</td>
+                                </tr>
+                                <tr>
+                                    <td>P004</td>
+                                    <td>Chitato Original</td>
+                                    <td>35</td>
+                                    <td><input type="number" class="stock-input" value="33"></td>
+                                    <td class="stock-diff">-2</td>
+                                </tr>
+                                <tr>
+                                    <td>P005</td>
+                                    <td>Teh Botol Sosro</td>
+                                    <td>48</td>
+                                    <td><input type="number" class="stock-input" value="48"></td>
+                                    <td class="stock-diff">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="auditNotes">Catatan</label>
+                    <textarea id="auditNotes" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-close-modal="stockAuditModal">Batal</button>
+                <button class="action-btn btn-primary" id="saveAuditBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="stockReceiptModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Pendataan Penerimaan Stock</h3>
+                <button class="close-btn" data-close-modal="stockReceiptModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="receiptDate">Tanggal Penerimaan</label>
+                    <input type="date" id="receiptDate">
+                </div>
+                <div class="form-group">
+                    <label for="supplierSelect">Supplier</label>
+                    <select id="supplierSelect">
+                        <option value="1">PT Indofood Sukses Makmur</option>
+                        <option value="2">PT Mayora Indah</option>
+                        <option value="3">PT Coca Cola Indonesia</option>
+                        <option value="4">PT Unilever Indonesia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="receiptNo">No. Penerimaan</label>
+                    <input type="text" id="receiptNo" value="RCV-20250508-001">
+                </div>
+                <div class="form-group">
+                    <label>Daftar Produk</label>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga Satuan</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>P001</td>
+                                    <td>Indomie Goreng</td>
+                                    <td><input type="number" class="qty-input" value="100"></td>
+                                    <td>Rp 3.000</td>
+                                    <td>Rp 300.000</td>
+                                </tr>
+                                <tr>
+                                    <td>P006</td>
+                                    <td>Indomie Rebus</td>
+                                    <td><input type="number" class="qty-input" value="100"></td>
+                                    <td>Rp 2.800</td>
+                                    <td>Rp 280.000</td>
+                                </tr>
+                                <tr>
+                                    <td>P010</td>
+                                    <td>Indomie Kari Ayam</td>
+                                    <td><input type="number" class="qty-input" value="75"></td>
+                                    <td>Rp 2.900</td>
+                                    <td>Rp 217.500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="receiptNotes">Catatan</label>
+                    <textarea id="receiptNotes" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-close-modal="stockReceiptModal">Batal</button>
+                <button class="action-btn btn-primary" id="saveReceiptBtn">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="salesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Penjualan</h3>
+                <button class="close-btn" data-close-modal="salesModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="customerType">Tipe Pelanggan</label>
+                    <select id="customerType">
+                        <option value="regular">Reguler</option>
+                        <option value="member">Member</option>
+                    </select>
+                </div>
+                <div class="form-group" id="memberIdGroup" style="display: none;">
+                    <label for="memberId">ID Member</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="memberId" style="flex: 1;">
+                        <button class="action-btn btn-primary" style="width: auto;">Cek</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productSearch">Cari Produk</label>
+                    <input type="text" id="productSearch" placeholder="Kode/nama produk...">
+                    <div id="searchResults" style="display: none; border: 1px solid #ddd; margin-top: 5px; max-height: 150px; overflow-y: auto;">
+                        <div class="search-item" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;">Indomie Goreng (P001)</div>
+                        <div class="search-item" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;">Indomie Rebus (P006)</div>
+                        <div class="search-item" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;">Indomie Kari Ayam (P010)</div>
+                        <div class="search-item" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;">Aqua 600ml (P002)</div>
+                        <div class="search-item" style="padding: 8px 12px; cursor: pointer;">Pocari Sweat (P003)</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Keranjang</label>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kode</th>
+                                    <th>Nama Produk</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Subtotal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartItems">
+                                <tr>
+                                    <td>P001</td>
+                                    <td>Indomie Goreng</td>
+                                    <td>Rp 3.500</td>
+                                    <td><input type="number" class="qty-input" min="1" value="2"></td>
+                                    <td>Rp 7.000</td>
+                                    <td><button class="action-btn btn-danger">Hapus</button></td>
+                                </tr>
+                                <tr>
+                                    <td>P002</td>
+                                    <td>Aqua 600ml</td>
+                                    <td>Rp 4.000</td>
+                                    <td><input type="number" class="qty-input" min="1" value="1"></td>
+                                    <td>Rp 4.000</td>
+                                    <td><button class="action-btn btn-danger">Hapus</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group" style="text-align: right; font-weight: bold;">
+                    Total: Rp 11.000
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Metode Pembayaran</label>
+                    <select id="paymentMethod">
+                        <option value="cash">Tunai</option>
+                        <option value="debit">Debit</option>
+                        <option value="credit">Kartu Kredit</option>
+                        <option value="qris">QRIS</option>
+                    </select>
+                </div>
+                <div class="form-group" id="cashPayment">
+                    <label for="cashAmount">Jumlah Diterima</label>
+                    <input type="number" id="cashAmount" value="20000">
+                    <div style="margin-top: 5px; text-align: right;">
+                        Kembalian: Rp 9.000
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-close-modal="salesModal">Batal</button>
+                <button class="action-btn btn-primary" id="processPaymentBtn">Proses Pembayaran</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="ppobModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Layanan PPOB</h3>
+                <button class="close-btn" data-close-modal="ppobModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="ppobType">Jenis Layanan</label>
+                    <select id="ppobType">
+                        <option value="listrik">Token Listrik</option>
+                        <option value="air">PDAM</option>
+                        <option value="internet">Internet</option>
+                        <option value="telepon">Telepon</option>
+                        <option value="pulsa">Pulsa</option>
+                        <option value="pln">Tagihan PLN</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="customerNumber">Nomor Pelanggan</label>
+                    <input type="text" id="customerNumber" placeholder="Masukkan nomor pelanggan">
+                </div>
+                <div class="form-group">
+                    <label for="ppobNominal">Nominal</label>
+                    <select id="ppobNominal">
+                        <option value="50000">Rp 50.000</option>
+                        <option value="100000">Rp 100.000</option>
+                        <option value="150000">Rp 150.000</option>
+                        <option value="200000">Rp 200.000</option>
+                        <option value="250000">Rp 250.000</option>
+                        <option value="other">Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group" id="otherNominal" style="display: none;">
+                    <label for="customNominal">Nominal Kustom</label>
+                    <input type="number" id="customNominal" placeholder="Masukkan nominal">
+                </div>
+                <div class="form-group">
+                    <button class="action-btn btn-primary" style="width: 100%;" id="checkPpobBtn">Cek Tagihan</button>
+                </div>
+                
+                <div id="ppobResult" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px;">
+                    <h4 style="margin-bottom: 10px;">Informasi Tagihan</h4>
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="padding: 5px 0;">Nomor Pelanggan</td>
+                            <td>: <span id="resultCustomerNumber">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0;">Nama Pelanggan</td>
+                            <td>: <span id="resultCustomerName">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0;">Layanan</td>
+                            <td>: <span id="resultService">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0;">Periode</td>
+                            <td>: <span id="resultPeriod">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0;">Tagihan</td>
+                            <td>: <span id="resultAmount">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0;">Biaya Admin</td>
+                            <td>: <span id="resultFee">-</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 5px 0; font-weight: bold;">Total</td>
+                            <td style="font-weight: bold;">: <span id="resultTotal">-</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-close-modal="ppobModal">Batal</button>
+                <button class="action-btn btn-primary" id="processPpobBtn" style="display: none;">Bayar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="memberRegistrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registrasi Member</h3>
+                <button class="close-btn" data-close-modal="memberRegistrationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="memberName">Nama Lengkap</label>
+                    <input type="text" id="memberName" placeholder="Masukkan nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label for="memberPhone">Nomor Telepon</label>
+                    <input type="text" id="memberPhone" placeholder="Masukkan nomor telepon">
+                </div>
+                <div class="form-group">
+                    <label for="memberEmail">Email</label>
+                    <input type="email" id="memberEmail" placeholder="Masukkan email">
+                </div>
+                <div class="form-group">
+                    <label for="memberBirthdate">Tanggal Lahir</label>
+                    <input type="date" id="memberBirthdate">
+                </div>
+                <div class="form-group">
+                    <label for="memberGender">Jenis Kelamin</label>
+                    <select id="memberGender">
+                        <option value="male">Laki-laki</option>
+                        <option value="female">Perempuan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="memberAddress">Alamat</label>
+                    <textarea id="memberAddress" rows="3" placeholder="Masukkan alamat lengkap"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="termsAgree"> 
+                        Saya setuju dengan syarat dan ketentuan keanggotaan Indomaret
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-close-modal="memberRegistrationModal">Batal</button>
+                <button class="action-btn btn-primary" id="saveMemberBtn">Daftar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Data JS files -->
+    <script src="/data/users.js"></script>
+    <script src="/data/inventory.js"></script>
+    <script src="/data/sales.js"></script>
+    
+    <!-- Utility JS files -->
+    <script src="js/utils/formatter.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/utils/calculator.js"></script>
+    
+    <!-- UI JS files -->
+    <script src="js/ui/menu.js"></script>
+    <script src="js/ui/modal.js"></script>
+    <script src="js/ui/tabs.js"></script>
+    
+    <!-- Module JS files -->
+    <script src="js/modules/dashboard.js"></script>
+    <script src="js/modules/inventory.js"></script>
+    <script src="js/modules/sales.js"></script>
+    <script src="js/modules/ppob.js"></script>
+
+    <!-- Módulos JS -->
+
+    <script src="js/modules/kebijakan-stock.js"></script>
+    <script src="js/modules/promosi-lokal.js"></script>
+     <script src="js/modules/sinkron-file.js"></script>
+    <script src="js/modules/membership.js"></script>
+    <script src="js/modules/reports.js"></script>
+    <script src="js/modules/update-stock.js"></script>  
+    <script src="js/modules/update-harga.js"></script>
+   
+    <script src="js/modules/shift-karyawan.js"></script>
+    <script src="js/modules/kadaluarsa.js"></script>
+    
+    <!-- Core JS files -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

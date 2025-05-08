@@ -1,0 +1,163 @@
+/* ===== HEADER STYLES ===== */
+
+/* Main header container */
+.header {
+    background-color: #0056b3;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+/* ===== LEFT SIDE ===== */
+
+/* Header left side container */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Sidebar toggle button */
+#sidebarToggle {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 6px 10px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: none; /* Hidden by default, shown on mobile */
+}
+
+#sidebarToggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Logo styles */
+.header-logo {
+    height: 30px;
+    margin-right: 20px;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+}
+
+/* Remove underline from logo link */
+.header-left a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Hover effect for logo */
+.header-left a:hover .header-logo {
+    opacity: 0.9;
+}
+
+/* System title */
+.header-left h1 {
+    color: white;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ===== RIGHT SIDE ===== */
+
+/* Header right side container */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between user info and logout button */
+}
+
+/* User information container */
+.user-info {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+/* Username style */
+#userDisplayName {
+    font-weight: 600; /* Semi-bold */
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/* User role style */
+#userRoleDisplay {
+    opacity: 0.9;
+    font-weight: normal;
+}
+
+/* Logout button */
+.logout-btn {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect for logout button */
+.logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Active state (when clicked) */
+.logout-btn:active {
+    transform: scale(0.98);
+}
+
+/* ===== RESPONSIVE STYLES ===== */
+@media (max-width: 768px) {
+    /* Show sidebar toggle on mobile */
+    #sidebarToggle {
+        display: block;
+    }
+    
+    /* Smaller logo on mobile */
+    .header-logo {
+        height: 28px;
+        margin-right: 8px;
+    }
+    
+    /* Smaller title on mobile */
+    .header-left h1 {
+        font-size: 16px;
+    }
+    
+    /* User info in column layout on mobile */
+    .user-info {
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 1.2;
+    }
+    
+    #userDisplayName {
+        margin-right: 0;
+        font-size: 14px;
+    }
+    
+    #userRoleDisplay {
+        font-size: 12px;
+    }
+    
+    /* Smaller logout button on mobile */
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}
